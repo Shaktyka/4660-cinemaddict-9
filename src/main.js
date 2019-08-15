@@ -5,7 +5,9 @@ import {createSortTemplate} from './components/sort.js';
 import {createFilmsContainerTemplate} from './components/films-container.js';
 import {createFilmCardTemplate} from './components/card.js';
 import {createShowMoreBtnTemplate} from './components/show-more.js';
-import {createPopupTemplate} from './components/popup.js';
+// import {createPopupTemplate} from './components/popup.js';
+import {makeCardData} from './make-card.js';
+console.log(makeCardData());
 
 // Количество карточек для блоков
 const CardsAmount = {
@@ -58,4 +60,4 @@ render(topRatedContainer, createFilmCardTemplate(), CardsAmount.TOP_RATED);
 render(mostCommentedContainer, createFilmCardTemplate(), CardsAmount.MOST_COMMENTED);
 
 // Попап
-render(main, createPopupTemplate());
+// render(main, createPopupTemplate());

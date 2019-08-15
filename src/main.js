@@ -1,23 +1,55 @@
 import {createSearchTemplate} from './components/search.js';
 import {createRatingTemplate} from './components/rating.js';
-import {createSiteMenuTemplate} from './components/site-menu.js';
+import {createFilterTemplate} from './components/filter.js';
 import {createSortTemplate} from './components/sort.js';
-import {createFilmsContainerTemplate} from './components/films-container.js';
 import {createFilmCardTemplate} from './components/card.js';
 import {createShowMoreBtnTemplate} from './components/show-more.js';
-// import {createPopupTemplate} from './components/popup.js';
-import {makeCardData} from './make-card.js';
-console.log(makeCardData());
+// import {makeCardData} from './make-card.js';
 
 // Количество карточек для блоков
 const CardsAmount = {
-  ALL: 5,
+  START: 5,
+  TO_LOAD: 5,
   TOP_RATED: 2,
-  MOST_COMMENTED: 2
+  MOST_COMMENTED: 2,
+  MAX: 19
 };
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
+
+// Возвращает разметку общего блока для карточек фильмов
+export const createFilmsContainerTemplate = () => {
+  return `<section class="films"></section>`.trim();
+};
+
+// Возвращает разметку блока для группы Upcoming
+export const createUpcomingFilmsContainerTemplate = () => {
+  return `<section class="films-list">
+      <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
+      <div class="films-list__container">
+
+      </div>
+    </section>`.trim();
+};
+
+// Возвращает разметку блока для группы Top Rated
+export const createTopRatedFilmsContainerTemplate = () => {
+  return `<section class="films-list--extra" id="top-rated">
+      <h2 class="films-list__title">Top rated</h2>
+      <div class="films-list__container">
+      </div>
+    </section>`.trim();
+};
+
+// Возвращает разметку блока для группы Most Commented
+export const createMostCommentedFilmsContainerTemplate = () => {
+  return `<section class="films-list--extra" id="most-commented">
+      <h2 class="films-list__title">Most commented</h2>
+      <div class="films-list__container">
+      </div>
+    </section>`.trim();
+};
 
 // Рендеринг элемента из шаблона
 const renderElement = (string) => {
@@ -26,7 +58,7 @@ const renderElement = (string) => {
   return template.content;
 };
 
-// Рендеринг компонентов
+// Рендеринг компонент
 const render = (container, template, amount = null) => {
   if (amount) {
     let fragment = new DocumentFragment();
@@ -43,20 +75,39 @@ const render = (container, template, amount = null) => {
 // Рендерим элементы
 render(header, createSearchTemplate());
 render(header, createRatingTemplate());
-render(main, createSiteMenuTemplate());
+render(main, createFilterTemplate());
 render(main, createSortTemplate());
 
 // Контейнеры для контента
 render(main, createFilmsContainerTemplate());
-const allFilmsBlock = main.querySelector(`.films-list`);
-const allFilmsContainer = allFilmsBlock.querySelector(`.films-list__container`);
-const topRatedContainer = document.querySelector(`#top-rated .films-list__container`);
-const mostCommentedContainer = document.querySelector(`#most-commented .films-list__container`);
 
-// Карточки в контейнеры
-render(allFilmsContainer, createFilmCardTemplate(), CardsAmount.ALL);
-render(allFilmsBlock, createShowMoreBtnTemplate());
+const filmsContainer = main.querySelector(`.films`);
+render(filmsContainer, createUpcomingFilmsContainerTemplate());
+render(filmsContainer, createTopRatedFilmsContainerTemplate());
+render(filmsContainer, createMostCommentedFilmsContainerTemplate());
+
+// Обёртка для Upcoming фильмов
+const upcomingFilmsWrap = filmsContainer.querySelector(`.films-list`);
+// Контейнер для Upcoming фильмов
+const upcomingFilmsContainer = upcomingFilmsWrap.querySelector(`.films-list__container`);
+// Добавляем фильмы в контейнер Upcoming
+render(upcomingFilmsContainer, createFilmCardTemplate(), CardsAmount.START);
+// Добавляем кнопку "Show More"
+render(upcomingFilmsWrap, createShowMoreBtnTemplate());
+
+const showMoreBtn = main.querySelector(`.films-list__show-more`);
+
+showMoreBtn.addEventListener(`click`, (evt) => {
+  evt.preventDefault();
+  // console.log('show more!');
+});
+
+// Добавляем фильмы в контейнер Top Rated
+const topRatedContainer = filmsContainer.querySelector(`#top-rated .films-list__container`);
 render(topRatedContainer, createFilmCardTemplate(), CardsAmount.TOP_RATED);
+
+// Добавляем фильмы в контейнер Most Commented
+const mostCommentedContainer = filmsContainer.querySelector(`#most-commented .films-list__container`);
 render(mostCommentedContainer, createFilmCardTemplate(), CardsAmount.MOST_COMMENTED);
 
 // Попап

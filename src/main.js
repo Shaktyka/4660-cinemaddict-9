@@ -4,16 +4,19 @@ import {createFilterTemplate} from './components/filter.js';
 import {createSortTemplate} from './components/sort.js';
 import {createFilmCardTemplate} from './components/card.js';
 import {createShowMoreBtnTemplate} from './components/show-more.js';
-// import {makeCardData} from './make-card.js';
+import {makeCardData} from './make-card.js';
+import {getRandomNumber} from './utils.js';
 
 // Количество карточек для блоков
 const CardsAmount = {
   START: 5,
   TO_LOAD: 5,
   TOP_RATED: 2,
-  MOST_COMMENTED: 2,
-  MAX: 19
+  MOST_COMMENTED: 2
 };
+
+// Массив данных для карточек фильмов
+const filmCards = [];
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
@@ -51,6 +54,13 @@ export const createMostCommentedFilmsContainerTemplate = () => {
     </section>`.trim();
 };
 
+// Генерирует массив с карточками фильмов
+const getCardsDataArray = (amount) => {
+  for (let i = 0; i < amount; i++) {
+    filmCards.push(makeCardData());
+  }
+};
+
 // Рендеринг элемента из шаблона
 const renderElement = (string) => {
   const template = document.createElement(`template`);
@@ -72,6 +82,8 @@ const render = (container, template, amount = null) => {
   }
 };
 
+getCardsDataArray(getRandomNumber(9, 30));
+
 // Рендерим элементы
 render(header, createSearchTemplate());
 render(header, createRatingTemplate());
@@ -91,7 +103,7 @@ const upcomingFilmsWrap = filmsContainer.querySelector(`.films-list`);
 // Контейнер для Upcoming фильмов
 const upcomingFilmsContainer = upcomingFilmsWrap.querySelector(`.films-list__container`);
 // Добавляем фильмы в контейнер Upcoming
-render(upcomingFilmsContainer, createFilmCardTemplate(), CardsAmount.START);
+render(upcomingFilmsContainer, createFilmCardTemplate(makeCardData()), CardsAmount.START);
 // Добавляем кнопку "Show More"
 render(upcomingFilmsWrap, createShowMoreBtnTemplate());
 
@@ -104,11 +116,11 @@ showMoreBtn.addEventListener(`click`, (evt) => {
 
 // Добавляем фильмы в контейнер Top Rated
 const topRatedContainer = filmsContainer.querySelector(`#top-rated .films-list__container`);
-render(topRatedContainer, createFilmCardTemplate(), CardsAmount.TOP_RATED);
+render(topRatedContainer, createFilmCardTemplate(makeCardData()), CardsAmount.TOP_RATED);
 
 // Добавляем фильмы в контейнер Most Commented
 const mostCommentedContainer = filmsContainer.querySelector(`#most-commented .films-list__container`);
-render(mostCommentedContainer, createFilmCardTemplate(), CardsAmount.MOST_COMMENTED);
+render(mostCommentedContainer, createFilmCardTemplate(makeCardData()), CardsAmount.MOST_COMMENTED);
 
 // Попап
 // render(main, createPopupTemplate());

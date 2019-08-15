@@ -59,8 +59,8 @@ const actors = [
 
 // Постеры
 const posters = [
-  `made-for-each-other.jpg`,
-  `popeye-meets-sinbad.jpg`,
+  `made-for-each-other.png`,
+  `popeye-meets-sinbad.png`,
   `sagebrush-trail.jpg`,
   `santa-claus-conquers-the-martians.jpg`,
   `the-dance-of-life.jpg`,
@@ -209,14 +209,8 @@ const getCommentsArray = (num) => {
 // Функция для генерации объекта с рандомной структурой данных
 export const makeCardData = () => {
   return {
-    filmTitle: {
-      release: filmTitles[getRandomNumber(0, filmTitles.length - 1)],
-      original: filmTitles[getRandomNumber(0, filmTitles.length - 1)]
-    },
-    release: {
-      premiereDate: getRandomDate(),
-      digitalDate: getRandomDate()
-    },
+    filmTitle: filmTitles[getRandomNumber(0, filmTitles.length - 1)],
+    year: getRandomDate(),
     director: filmDirectors[getRandomNumber(0, filmDirectors.length - 1)],
     writers: getElementsFromArray(filmWriters, getRandomNumber(1, 3)),
     actors: getElementsFromArray(actors, getRandomNumber(1, 5)),
@@ -225,10 +219,8 @@ export const makeCardData = () => {
     seasons: getRandomNumber(0, 10),
     genres: getElementsFromArray(filmGenres, getRandomNumber(1, 3)),
     ageRating: ageRates[getRandomNumber(0, ageRates.length - 1)],
-    rating: {
-      average: getRating(0, 10),
-      user: getRandomNumber(1, 9)
-    },
+    avrRating: getRating(0, 10),
+    userRating: getRandomNumber(1, 9),
     country: filmCountries[getRandomNumber(0, filmCountries.length - 1)],
     poster: posters[getRandomNumber(0, posters.length - 1)],
     comments: getCommentsArray(getRandomNumber(0, 5)),

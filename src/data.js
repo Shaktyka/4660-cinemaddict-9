@@ -1,5 +1,20 @@
 import {getRandomNumber} from './utils.js';
-// const Sort = ['default', 'date', 'rating'];
+
+// Данные для сортировки
+export const sortArray = [
+  {
+    name: `default`,
+    href: `#`
+  },
+  {
+    name: `date`,
+    href: `#`
+  },
+  {
+    name: `rating`,
+    href: `#`
+  }
+];
 
 // Для звания
 const WatchedFilms = {

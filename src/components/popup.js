@@ -1,4 +1,4 @@
-import {formatTime} from '../utils.js';
+import {formatTime, formatDate} from '../utils.js';
 
 // Возвращает разметку попапа
 export const makePopup = (dataObj) => {
@@ -45,7 +45,7 @@ export const makePopup = (dataObj) => {
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
 
-              <td class="film-details__cell">30 March 1945</td>
+              <td class="film-details__cell">${formatDate(dataObj.year)}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>

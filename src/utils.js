@@ -1,5 +1,8 @@
 const MAX_SYMBOLS = 140;
 
+// Массив названий месяцов года
+const months = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
+
 // Генерирует случайное число от min до max вкл.
 export const getRandomNumber = (min, max) => min + Math.floor(Math.random() * (max + 1 - min));
 
@@ -13,6 +16,12 @@ export const renderElement = (string) => {
   const template = document.createElement(`template`);
   template.innerHTML = string;
   return template.content;
+};
+
+// Форматирование даты
+export const formatDate = (timestamp) => {
+  const date = new Date(timestamp);
+  return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 };
 
 // Возвращает часы и минуты из кол-ва минут

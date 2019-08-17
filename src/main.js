@@ -16,8 +16,11 @@ const CardsAmount = {
   MOST_COMMENTED: 2
 };
 
+// Элемент для вывода кол-ва фильмов
+const filmsAmount = document.querySelector(`.footer__statistics p`);
+
 // Массив данных для карточек фильмов
-const filmCards = [];
+let filmCards = [];
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
@@ -99,6 +102,7 @@ const render = (container, template, amount = null) => {
 };
 
 getCardsDataArray(getRandomNumber(9, 30));
+filmsAmount.innerHTML = `${filmCards.length} movies inside`;
 
 // Рендерим элементы
 render(header, makeSearch());

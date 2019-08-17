@@ -1,6 +1,4 @@
-import {cropText} from '../utils.js';
-
-// Перевод в часы в минуты для получения длительности
+import {cropText, formatTime} from '../utils.js';
 
 // Возвращает разметку карточки фильма
 export const makeCard = (dataObj) => {
@@ -9,7 +7,7 @@ export const makeCard = (dataObj) => {
     <p class="film-card__rating">${dataObj.avrRating}</p>
       <p class="film-card__info">
         <span class="film-card__year">${new Date(dataObj.year).getFullYear()}</span>
-        <span class="film-card__duration">${dataObj.duration}</span>
+        <span class="film-card__duration">${formatTime(dataObj.duration)}</span>
         <span class="film-card__genre">${dataObj.genres.join(`, `)}</span>
       </p>
       <img src="./images/posters/${dataObj.poster}" alt="${dataObj.filmTitle}" class="film-card__poster">

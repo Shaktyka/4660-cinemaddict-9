@@ -21,13 +21,28 @@ const filmCards = [];
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
 
+// Возвращает разметку блока для фильтра
+export const getFilterContainerTemplate = () => {
+  return `<nav class="main-navigation"></nav>`.trim();
+};
+
+// Возвращает разметку пункта фильтра Stats
+export const getStatsElemTemplate = () => {
+  return `<a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>`.trim();
+};
+
+// Возвращает разметку блока для сортировки
+export const getSortingContainerTemplate = () => {
+  return `<ul class="sort"></ul>`.trim();
+};
+
 // Возвращает разметку общего блока для карточек фильмов
-export const createFilmsContainerTemplate = () => {
+export const getFilmsContainerTemplate = () => {
   return `<section class="films"></section>`.trim();
 };
 
 // Возвращает разметку блока для группы Upcoming
-export const createUpcomingFilmsContainerTemplate = () => {
+export const getUpcomingFilmsContainerTemplate = () => {
   return `<section class="films-list">
       <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
       <div class="films-list__container">
@@ -37,7 +52,7 @@ export const createUpcomingFilmsContainerTemplate = () => {
 };
 
 // Возвращает разметку блока для группы Top Rated
-export const createTopRatedFilmsContainerTemplate = () => {
+export const getTopRatedFilmsContainerTemplate = () => {
   return `<section class="films-list--extra" id="top-rated">
       <h2 class="films-list__title">Top rated</h2>
       <div class="films-list__container">
@@ -46,7 +61,7 @@ export const createTopRatedFilmsContainerTemplate = () => {
 };
 
 // Возвращает разметку блока для группы Most Commented
-export const createMostCommentedFilmsContainerTemplate = () => {
+export const getMostCommentedFilmsContainerTemplate = () => {
   return `<section class="films-list--extra" id="most-commented">
       <h2 class="films-list__title">Most commented</h2>
       <div class="films-list__container">
@@ -87,16 +102,24 @@ getCardsDataArray(getRandomNumber(9, 30));
 // Рендерим элементы
 render(header, makeSearch());
 render(header, makeRating());
-render(main, makeFilter());
-render(main, makeSort());
+
+// Добавляем фильтр
+render(main, getFilterContainerTemplate());
+const mainNavContainer = document.querySelector(`.main-navigation`);
+render(mainNavContainer, makeFilter());
+render(mainNavContainer, getStatsElemTemplate());
+
+// Добавляем сортинг
+render(main, getSortingContainerTemplate());
+render(document.querySelector(`.sort`), makeSort());
 
 // Контейнеры для контента
-render(main, createFilmsContainerTemplate());
+render(main, getFilmsContainerTemplate());
 
 const filmsContainer = main.querySelector(`.films`);
-render(filmsContainer, createUpcomingFilmsContainerTemplate());
-render(filmsContainer, createTopRatedFilmsContainerTemplate());
-render(filmsContainer, createMostCommentedFilmsContainerTemplate());
+render(filmsContainer, getUpcomingFilmsContainerTemplate());
+render(filmsContainer, getTopRatedFilmsContainerTemplate());
+render(filmsContainer, getMostCommentedFilmsContainerTemplate());
 
 // Обёртка для Upcoming фильмов
 const upcomingFilmsWrap = filmsContainer.querySelector(`.films-list`);

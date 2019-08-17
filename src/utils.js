@@ -23,3 +23,18 @@ export const formatTime = (minutes) => {
   const formMins = mins > 0 ? (mins + `m`) : `00 m`;
   return formHours + ` ` + formMins;
 };
+
+// Возвращает звание в зависимости от кол-ва просмотренных фильмов
+export const getProfileRating = (num) => {
+  let rating;
+  if (num >= 1 && num <= 10) {
+    rating = `novice`;
+  } else if (num >= 11 && num <= 20) {
+    rating = `fan`;
+  } else if (num >= 21) {
+    rating = `movie buff`;
+  } else {
+    rating = ``;
+  }
+  return rating;
+};

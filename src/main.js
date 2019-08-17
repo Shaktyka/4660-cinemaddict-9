@@ -6,6 +6,7 @@ import {makeCard} from './components/card.js';
 import {makeShowMoreBtn} from './components/show-more.js';
 import {makeCardData} from './make-card.js';
 import {getRandomNumber} from './utils.js';
+import {getWatchedFilmsNumber} from './data.js';
 
 // Количество карточек для блоков
 const CardsAmount = {
@@ -101,7 +102,7 @@ getCardsDataArray(getRandomNumber(9, 30));
 
 // Рендерим элементы
 render(header, makeSearch());
-render(header, makeRating());
+render(header, makeRating(getWatchedFilmsNumber()));
 
 // Добавляем фильтр
 render(main, getFilterContainerTemplate());

@@ -3,6 +3,7 @@ import {makeRating} from './components/rating.js';
 import {makeFilter} from './components/filter.js';
 import {makeSort} from './components/sort.js';
 import {makeCard} from './components/card.js';
+import {makePopup} from './components/popup.js';
 import {makeShowMoreBtn} from './components/show-more.js';
 import {makeCardData} from './make-card.js';
 import {getRandomNumber} from './utils.js';
@@ -165,5 +166,14 @@ render(topRatedContainer, makeCard(makeCardData()), CardsAmount.TOP_RATED);
 const mostCommentedContainer = filmsContainer.querySelector(`#most-commented .films-list__container`);
 render(mostCommentedContainer, makeCard(makeCardData()), CardsAmount.MOST_COMMENTED);
 
-// Попап
-// render(main, createPopupTemplate());
+// Попап (временный код)
+const avatar = document.querySelector(`.profile__avatar`);
+avatar.addEventListener(`click`, () => {
+  render(main, makePopup(makeCardData()));
+
+  const closePopup = document.querySelector(`.film-details`).querySelector(`.film-details__close-btn`);
+  closePopup.addEventListener(`click`, (evt) => {
+    evt.preventDefault();
+    document.querySelector(`.film-details`).remove();
+  });
+});

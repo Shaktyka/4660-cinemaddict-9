@@ -1,5 +1,7 @@
+
+
 // Возвращает разметку попапа
-export const createPopupTemplate = () => {
+export const makePopup = (dataObj) => {
   return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
     <div class="form-details__top-container">

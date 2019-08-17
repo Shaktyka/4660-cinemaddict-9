@@ -4,15 +4,15 @@ import {getRandomNumber} from './utils.js';
 export const sortArray = [
   {
     name: `default`,
-    href: `#`
+    href: `?sort=default`
   },
   {
     name: `date`,
-    href: `#`
+    href: `?sort=data`
   },
   {
     name: `rating`,
-    href: `#`
+    href: `?sort=rating`
   }
 ];
 

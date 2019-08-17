@@ -209,7 +209,8 @@ const getCommentsArray = (num) => {
 // Функция для генерации объекта с рандомной структурой данных
 export const makeCardData = () => {
   return {
-    filmTitle: filmTitles[getRandomNumber(0, filmTitles.length - 1)],
+    releaseTitle: filmTitles[getRandomNumber(0, filmTitles.length - 1)],
+    originalTitle: filmTitles[getRandomNumber(0, filmTitles.length - 1)],
     year: getRandomDate(),
     director: filmDirectors[getRandomNumber(0, filmDirectors.length - 1)],
     writers: getElementsFromArray(filmWriters, getRandomNumber(1, 3)),

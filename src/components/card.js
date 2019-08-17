@@ -3,14 +3,14 @@ import {cropText} from '../utils.js';
 // Перевод в часы в минуты для получения длительности
 
 // Возвращает разметку карточки фильма
-export const createFilmCardTemplate = (dataObj) => {
+export const makeCard = (dataObj) => {
   return `<article class="film-card">
-    <h3 class="film-card__title">${dataObj.filmTitle}</h3>
+    <h3 class="film-card__title">${dataObj.releaseTitle}</h3>
     <p class="film-card__rating">${dataObj.avrRating}</p>
       <p class="film-card__info">
         <span class="film-card__year">${new Date(dataObj.year).getFullYear()}</span>
         <span class="film-card__duration">${dataObj.duration}</span>
-        <span class="film-card__genre">${dataObj.genres}</span>
+        <span class="film-card__genre">${dataObj.genres.join(`, `)}</span>
       </p>
       <img src="./images/posters/${dataObj.poster}" alt="${dataObj.filmTitle}" class="film-card__poster">
       <p class="film-card__description">${cropText(dataObj.description.join(` `))}</p>

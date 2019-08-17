@@ -1,9 +1,9 @@
-import {createSearchTemplate} from './components/search.js';
-import {createRatingTemplate} from './components/rating.js';
-import {createFilterTemplate} from './components/filter.js';
-import {createSortTemplate} from './components/sort.js';
-import {createFilmCardTemplate} from './components/card.js';
-import {createShowMoreBtnTemplate} from './components/show-more.js';
+import {makeSearch} from './components/search.js';
+import {makeRating} from './components/rating.js';
+import {makeFilter} from './components/filter.js';
+import {makeSort} from './components/sort.js';
+import {makeCard} from './components/card.js';
+import {makeShowMoreBtn} from './components/show-more.js';
 import {makeCardData} from './make-card.js';
 import {getRandomNumber} from './utils.js';
 
@@ -85,10 +85,10 @@ const render = (container, template, amount = null) => {
 getCardsDataArray(getRandomNumber(9, 30));
 
 // Рендерим элементы
-render(header, createSearchTemplate());
-render(header, createRatingTemplate());
-render(main, createFilterTemplate());
-render(main, createSortTemplate());
+render(header, makeSearch());
+render(header, makeRating());
+render(main, makeFilter());
+render(main, makeSort());
 
 // Контейнеры для контента
 render(main, createFilmsContainerTemplate());
@@ -103,12 +103,10 @@ const upcomingFilmsWrap = filmsContainer.querySelector(`.films-list`);
 // Контейнер для Upcoming фильмов
 const upcomingFilmsContainer = upcomingFilmsWrap.querySelector(`.films-list__container`);
 // Добавляем фильмы в контейнер Upcoming
-render(upcomingFilmsContainer, createFilmCardTemplate(makeCardData()), CardsAmount.START);
+render(upcomingFilmsContainer, makeCard(makeCardData()), CardsAmount.START);
 // Добавляем кнопку "Show More"
-render(upcomingFilmsWrap, createShowMoreBtnTemplate());
-
+render(upcomingFilmsWrap, makeShowMoreBtn());
 const showMoreBtn = main.querySelector(`.films-list__show-more`);
-
 showMoreBtn.addEventListener(`click`, (evt) => {
   evt.preventDefault();
   // console.log('show more!');
@@ -116,11 +114,11 @@ showMoreBtn.addEventListener(`click`, (evt) => {
 
 // Добавляем фильмы в контейнер Top Rated
 const topRatedContainer = filmsContainer.querySelector(`#top-rated .films-list__container`);
-render(topRatedContainer, createFilmCardTemplate(makeCardData()), CardsAmount.TOP_RATED);
+render(topRatedContainer, makeCard(makeCardData()), CardsAmount.TOP_RATED);
 
 // Добавляем фильмы в контейнер Most Commented
 const mostCommentedContainer = filmsContainer.querySelector(`#most-commented .films-list__container`);
-render(mostCommentedContainer, createFilmCardTemplate(makeCardData()), CardsAmount.MOST_COMMENTED);
+render(mostCommentedContainer, makeCard(makeCardData()), CardsAmount.MOST_COMMENTED);
 
 // Попап
 // render(main, createPopupTemplate());

@@ -7,7 +7,7 @@ import {makePopup} from './components/popup.js';
 import {makeShowMoreBtn} from './components/show-more.js';
 import {makeCardData} from './make-card.js';
 import {getRandomNumber} from './utils.js';
-import {sortArray, getWatchedFilmsNumber} from './data.js';
+import {filtersData, sortArray, getWatchedFilmsNumber} from './data.js';
 
 // Количество карточек для блоков
 const CardsAmount = {
@@ -119,22 +119,25 @@ render(header, makeRating(getWatchedFilmsNumber()));
 // Добавляем фильтр
 render(main, getFilterContainerTemplate());
 const mainNavContainer = document.querySelector(`.main-navigation`);
+
+// Генерируем строку из разметки эл-в фильтра
+
 render(mainNavContainer, makeFilter());
 render(mainNavContainer, getStatsElemTemplate());
 
 // Добавляем сортинг
 // Генерируем строку из разметки элементов
-const createSortTemplate = (dataArr) => {
-  let sortTepmlateString = ``;
+const createSortString = (dataArr) => {
+  let sortString = ``;
   let isActive = false;
   dataArr.forEach((dataEl) => {
     isActive = (dataEl.name === `default`) ? true : false;
-    sortTepmlateString += makeSort(dataEl, isActive);
+    sortString += makeSort(dataEl, isActive);
   });
-  return sortTepmlateString;
+  return sortString;
 };
 render(main, getSortingContainerTemplate());
-render(document.querySelector(`.sort`), createSortTemplate(sortArray));
+render(document.querySelector(`.sort`), createSortString(sortArray));
 
 // Контейнеры для контента
 render(main, getFilmsContainerTemplate());

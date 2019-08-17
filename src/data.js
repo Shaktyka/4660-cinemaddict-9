@@ -1,5 +1,25 @@
 import {getRandomNumber} from './utils.js';
 
+// Данные для фильтра
+export const filtersData = [
+  {
+    name: `All movies`,
+    href: `#all`
+  },
+  {
+    name: `Watchlist`,
+    href: `#watchlist`
+  },
+  {
+    name: `History`,
+    href: `#history`
+  },
+  {
+    name: `Favorites`,
+    href: `#favorites`
+  }
+];
+
 // Данные для сортировки
 export const sortArray = [
   {
@@ -16,7 +36,7 @@ export const sortArray = [
   }
 ];
 
-// Для звания
+// Данные для звания
 const WatchedFilms = {
   MIN: 0,
   MAX: 100

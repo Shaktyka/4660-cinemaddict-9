@@ -29,7 +29,7 @@ export const formatTime = (minutes) => {
   const hours = Math.floor(minutes / 60);
   const formHours = hours > 0 ? (hours + `h`) : ``;
   const mins = minutes % 60;
-  const formMins = mins > 0 ? (mins + `m`) : `00 m`;
+  const formMins = mins > 0 ? (mins + `m`) : `00m`;
   return formHours + ` ` + formMins;
 };
 

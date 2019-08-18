@@ -147,6 +147,7 @@ const ageRates = [
   `NC-17`
 ];
 
+// Комментарии
 const comments = [
   `Mandamus abhorreant deseruisse mea at.`,
   `Mea elit deserunt persequeris at.`,
@@ -157,6 +158,14 @@ const comments = [
   `Usu commodo prompta prodesset id.`,
   `Tation delenit percipitur at vix.`,
   `In rutrum ac purus sit amet tempus.`
+];
+
+// Комментарии
+const emojis = [
+  `angry.png`,
+  `puke.png`,
+  `sleeping.png`,
+  `smile.png`
 ];
 
 // Возвращает дробное десятичное число (рейтинг)
@@ -184,7 +193,7 @@ const getElementsFromArray = (array, num) => shuffleArray(array).slice(0, num);
 // Генерация объекта комментария
 const getCommentObject = () => {
   return {
-    emoji: [`😴`, `😐`, `😀`][Math.floor(Math.random() * 3)],
+    emoji: emojis[Math.floor(Math.random() * emojis.length)],
     comment: comments[getRandomNumber(0, comments.length - 1)],
     author: [
       `Kate Smith`,

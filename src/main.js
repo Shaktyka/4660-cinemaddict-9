@@ -20,8 +20,7 @@ const CardsAmount = {
 // Элемент для вывода кол-ва фильмов
 const filmsAmount = document.querySelector(`.footer__statistics p`);
 
-// Флаг, показывающий, отрендерена ли кнопка "Show More"
-// let isShowMoreOnScreen = false;
+// Кнопка "Show More"
 let showMoreBtn = null;
 
 // Массив данных для карточек фильмов
@@ -155,9 +154,19 @@ render(filmsContainer, getMostCommentedFilmsContainerTemplate());
 const upcomingFilmsWrap = filmsContainer.querySelector(`.films-list`);
 // Контейнер для Upcoming фильмов
 const upcomingFilmsContainer = upcomingFilmsWrap.querySelector(`.films-list__container`);
+
+// Рендеринг строки из карточек
+const renderCardsString = (dataArr, amount) => {
+  // Строка из разметки карточек
+  let cardsString = ``;
+  for (let i = 0; i < amount; i++) {
+    cardsString += makeCard(dataArr[i]);
+  }
+  return cardsString;
+};
+
 // Добавляем фильмы в контейнер Upcoming
-render(upcomingFilmsContainer, makeCard(makeCardData()), CardsAmount.START);
-// Добавляем кнопку "Show More"
+render(upcomingFilmsContainer, renderCardsString(filmCards, CardsAmount.START));
 
 // Обработчик клика по кнопке "Show more"
 const showMoreBtnClickHandler = (evt) => {

@@ -7,7 +7,7 @@ import {makePopup} from './components/popup.js';
 import {makeShowMoreBtn} from './components/show-more.js';
 import {makeCardData} from './make-card.js';
 import {getRandomNumber} from './utils.js';
-import {filtersData, sortArray, getWatchedFilmsNumber} from './data.js';
+import {sortArray, getWatchedFilmsNumber} from './data.js';
 
 // Количество карточек для блоков
 const CardsAmount = {

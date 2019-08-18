@@ -56,7 +56,7 @@ export const makePopup = (dataObj) => {
               <td class="film-details__cell">${dataObj.country}</td>
             </tr>
             <tr class="film-details__row">
-              <td class="film-details__term">Genres</td>
+              <td class="film-details__term">${dataObj.genres.length > 1 ? `Genres` : `Genre`}</td>
               <td class="film-details__cell">
                 ${dataObj.genres.map((genre) => (`<span class="film-details__genre">${genre}</span>`.trim())).join(``)}
               </td>

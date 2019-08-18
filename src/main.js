@@ -92,17 +92,8 @@ const renderElement = (string) => {
 };
 
 // Рендеринг компонент
-const render = (container, template, amount = null) => {
-  if (amount) {
-    let fragment = new DocumentFragment();
-    for (let i = 0; i < amount; i++) {
-      const el = renderElement(template);
-      fragment.appendChild(el);
-    }
-    container.appendChild(fragment);
-  } else {
-    container.appendChild(renderElement(template));
-  }
+const render = (container, template) => {
+  container.appendChild(renderElement(template));
 };
 
 // Генерируем моковый массив с данными для карточек
@@ -157,10 +148,13 @@ const upcomingFilmsContainer = upcomingFilmsWrap.querySelector(`.films-list__con
 
 // Рендеринг строки из карточек
 const renderCardsString = (dataArr, amount) => {
-  // Строка из разметки карточек
   let cardsString = ``;
-  for (let i = 0; i < amount; i++) {
-    cardsString += makeCard(dataArr[i]);
+  if (dataArr.length === 0) {
+    cardsString = `There are no movies in our database`;
+  } else {
+    for (let i = 0; i < amount; i++) {
+      cardsString += makeCard(dataArr[i]);
+    }
   }
   return cardsString;
 };

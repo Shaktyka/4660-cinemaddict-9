@@ -20,6 +20,10 @@ const CardsAmount = {
 // Элемент для вывода кол-ва фильмов
 const filmsAmount = document.querySelector(`.footer__statistics p`);
 
+// Флаг, показывающий, отрендерена ли кнопка "Show More"
+// let isShowMoreOnScreen = false;
+let showMoreBtn = null;
+
 // Массив данных для карточек фильмов
 let filmCards = [];
 
@@ -154,12 +158,29 @@ const upcomingFilmsContainer = upcomingFilmsWrap.querySelector(`.films-list__con
 // Добавляем фильмы в контейнер Upcoming
 render(upcomingFilmsContainer, makeCard(makeCardData()), CardsAmount.START);
 // Добавляем кнопку "Show More"
-render(upcomingFilmsWrap, makeShowMoreBtn());
-const showMoreBtn = main.querySelector(`.films-list__show-more`);
-showMoreBtn.addEventListener(`click`, (evt) => {
+
+// Обработчик клика по кнопке "Show more"
+const showMoreBtnClickHandler = (evt) => {
   evt.preventDefault();
   // console.log('show more!');
-});
+};
+
+// Функция рендеринга кнопки "Show more"
+const insertShowMoreBtn = () => {
+  if (filmCards.length > 5) {
+    render(upcomingFilmsWrap, makeShowMoreBtn());
+    showMoreBtn = main.querySelector(`.films-list__show-more`);
+    showMoreBtn.addEventListener(`click`, showMoreBtnClickHandler);
+  } else {
+    if (showMoreBtn) {
+      showMoreBtn.remove();
+      showMoreBtn.removeEventListener(`click`, showMoreBtnClickHandler);
+    }
+    showMoreBtn = null;
+  }
+};
+
+insertShowMoreBtn();
 
 // Добавляем фильмы в контейнер Top Rated
 const topRatedContainer = filmsContainer.querySelector(`#top-rated .films-list__container`);

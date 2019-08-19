@@ -1,13 +1,32 @@
-// Возвращает разметку меню
-export const makeFilter = (dataObj, amount, isActive = false) => {
-  return `<a href="#${dataObj.name}" class="main-navigation__item ${isActive ? `main-navigation__item--active` : ``}">
-    ${dataObj.name}
-    ${amount ? `<span class="main-navigation__item-count">${amount}</span>` : ``}
-  </a>`.trim();
-};
+import {createElement} from '../utils.js';
 
-/*
-<a href="#watchlist" class="main-navigation__item">Watchlist </a>
-<a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">4</span></a>
-<a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">8</span></a>
- */
+// Класс "Элемент фильтра"
+export class Filter {
+  constructor({name, href}, isWithoutCount, isActiveFilter) {
+    this._element = null;
+    this._href = href;
+    this._name = name;
+    this._isActiveFilter = isActiveFilter;
+    this._isWithoutCount = isWithoutCount;
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  getTemplate() {
+    return `<a href="${this._href}" class="main-navigation__item ${this._isActiveFilter ? `main-navigation__item--active` : ``}">
+      ${this._name}
+      ${this._isWithoutCount ? `` : `<span class="main-navigation__item-count">5</span>`}
+    </a>`.trim();
+  }
+
+  removeElement() {
+    if (this._element) {
+      this._element = null;
+    }
+  }
+}

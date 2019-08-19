@@ -7,13 +7,13 @@ import {getFilmsContainerTemplate} from './components/films-container.js';
 import {getUpcomingFilmsContainerTemplate} from './components/upcoming-films-container.js';
 import {getTopRatedFilmsContainerTemplate} from './components/toprated-films-container.js';
 import {getMostCommentedFilmsContainerTemplate} from './components/most-commented-films-container.js';
-import {makeFilter} from './components/filter.js';
+import {Filter} from './components/filter.js';
 import {makeSort} from './components/sort.js';
-import {makeCard} from './components/card.js';
+import {Card} from './components/card.js';
 import {makePopup} from './components/popup.js';
 import {makeShowMoreBtn} from './components/show-more.js';
 import {makeCardData} from './make-card.js';
-import {getRandomNumber} from './utils.js';
+import {getRandomNumber, createElement} from './utils.js';
 import {filtersData, sortArray, getWatchedFilmsNumber} from './data.js';
 
 // Количество карточек для блоков
@@ -38,21 +38,7 @@ const main = document.querySelector(`.main`);
 
 // Генерирует массив с карточками фильмов
 const getCardsDataArray = (amount) => {
-  for (let i = 0; i < amount; i++) {
-    filmCards.push(makeCardData());
-  }
-};
-
-// Рендеринг элемента из шаблона
-const renderElement = (string) => {
-  const template = document.createElement(`template`);
-  template.innerHTML = string;
-  return template.content;
-};
-
-// Рендеринг компонент
-const render = (container, template) => {
-  container.appendChild(renderElement(template));
+  filmCards = new Array(amount).fill(``).map(makeCardData);
 };
 
 // Генерируем моковый массив с данными для карточек
@@ -65,6 +51,11 @@ const getFilmsAmount = (array) => {
 
 filmsAmount.innerHTML = `${getFilmsAmount(filmCards)} movies inside`;
 
+// Рендеринг компонент
+const render = (container, element) => {
+  container.appendChild(createElement(element));
+};
+
 // Добавляем Search и Звание/Рейтинг
 render(header, makeSearch());
 render(header, makeRating(getWatchedFilmsNumber()));
@@ -73,19 +64,25 @@ render(header, makeRating(getWatchedFilmsNumber()));
 render(main, getFilterContainerTemplate());
 const mainNavContainer = document.querySelector(`.main-navigation`);
 
-// Генерируем строку из разметки элементов фильтра
-const createFilterString = (dataArr) => {
-  let filterString = ``;
-  let isActive = false;
-  let amount = 0;
-  dataArr.forEach((dataEl) => {
-    isActive = (dataEl.name === `All movies`) ? true : false;
-    amount = (dataEl.name === `All movies`) ? 0 : getRandomNumber(1, 20);
-    filterString += makeFilter(dataEl, amount, isActive);
+// Рендеринг фильтра
+const renderFilter = (container, filterArray) => {
+  const fragment = document.createDocumentFragment();
+
+  filterArray.forEach((obj) => {
+    const isWithoutCount = obj.name === `All movies`;
+    const isActiveFilter = obj.name === `All movies`;
+
+    const filter = new Filter(obj, isWithoutCount, isActiveFilter).getElement();
+    fragment.appendChild(filter);
   });
-  return filterString;
+
+  container.appendChild(fragment);
 };
-render(mainNavContainer, createFilterString(filtersData));
+
+// Стартовый рендеринг фильтра
+renderFilter(mainNavContainer, filtersData);
+
+// render(mainNavContainer, createFilterString(filtersData));
 render(mainNavContainer, getStatsElemTemplate());
 
 // Генерируем строку из разметки элементов SortFilter
@@ -115,20 +112,36 @@ const upcomingFilmsWrap = filmsContainer.querySelector(`.films-list`);
 const upcomingFilmsContainer = upcomingFilmsWrap.querySelector(`.films-list__container`);
 
 // Рендеринг строки из карточек
-const renderCardsString = (dataArr, amount) => {
-  let cardsString = ``;
-  if (dataArr.length === 0) {
-    cardsString = `There are no movies in our database`;
-  } else {
+// const renderCardsString = (dataArr, amount) => {
+//   let cardsString = ``;
+//   if (dataArr.length === 0) {
+//     cardsString = `There are no movies in our database`;
+//   } else {
+//     for (let i = 0; i < amount; i++) {
+//       cardsString += makeCard(dataArr[i]);
+//     }
+//   }
+//   return cardsString;
+// };
+
+// Метод отрисовки карточек (временно)
+const renderCards = (container, dataArray, amount) => {
+  let fragment = new DocumentFragment();
+  if (amount) {
     for (let i = 0; i < amount; i++) {
-      cardsString += makeCard(dataArr[i]);
+      const el = createElement(new Card(dataArray[i]));
+      fragment.appendChild(el);
     }
+    container.appendChild(fragment);
+  } else {
+    container.appendChild(``);
   }
-  return cardsString;
 };
 
 // Добавляем фильмы в контейнер Upcoming
-render(upcomingFilmsContainer, renderCardsString(filmCards, CardsAmount.START));
+renderCards(upcomingFilmsContainer, filmCards, CardsAmount.START);
+
+// render(upcomingFilmsContainer, renderCardsString(filmCards, CardsAmount.START));
 
 // Обработчик клика по кнопке "Show more"
 const showMoreBtnClickHandler = (evt) => {
@@ -155,11 +168,11 @@ insertShowMoreBtn();
 
 // Добавляем фильмы в контейнер Top Rated
 const topRatedContainer = filmsContainer.querySelector(`#top-rated .films-list__container`);
-render(topRatedContainer, makeCard(makeCardData()), CardsAmount.TOP_RATED);
+render(topRatedContainer, new Card(makeCardData()), CardsAmount.TOP_RATED);
 
 // Добавляем фильмы в контейнер Most Commented
 const mostCommentedContainer = filmsContainer.querySelector(`#most-commented .films-list__container`);
-render(mostCommentedContainer, makeCard(makeCardData()), CardsAmount.MOST_COMMENTED);
+render(mostCommentedContainer, new Card(makeCardData()), CardsAmount.MOST_COMMENTED);
 
 // Попап (временный код)
 const avatar = document.querySelector(`.profile__avatar`);

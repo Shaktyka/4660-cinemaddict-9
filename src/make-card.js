@@ -220,7 +220,7 @@ export const makeCardData = () => {
   return {
     releaseTitle: filmTitles[getRandomNumber(0, filmTitles.length - 1)],
     originalTitle: filmTitles[getRandomNumber(0, filmTitles.length - 1)],
-    year: getRandomDate(),
+    date: getRandomDate(),
     director: filmDirectors[getRandomNumber(0, filmDirectors.length - 1)],
     writers: getElementsFromArray(filmWriters, getRandomNumber(1, 3)),
     actors: getElementsFromArray(actors, getRandomNumber(1, 5)),

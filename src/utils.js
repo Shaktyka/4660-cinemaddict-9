@@ -11,11 +11,11 @@ export const cropText = (string) => {
   return (string.length > MAX_SYMBOLS) ? string.substr(0, MAX_SYMBOLS - 1) + `...` : string;
 };
 
-// Генерирует элемент из строки
-export const renderElement = (string) => {
-  const template = document.createElement(`template`);
-  template.innerHTML = string;
-  return template.content;
+// Генерирует элемента из шаблона
+export const createElement = (template) => {
+  const div = document.createElement(`div`);
+  div.innerHTML = template;
+  return div.firstChild;
 };
 
 // Форматирование даты
@@ -47,3 +47,5 @@ export const getProfileRating = (num) => {
   }
   return rating;
 };
+
+export default createElement;

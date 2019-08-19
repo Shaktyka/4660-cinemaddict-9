@@ -56,7 +56,7 @@ const render = (container, template) => {
 };
 
 // Генерируем моковый массив с данными для карточек
-getCardsDataArray(getRandomNumber(9, 30));
+getCardsDataArray(getRandomNumber(9, 40));
 
 // Возвращает кол-во фильмов
 const getFilmsAmount = (array) => {
@@ -73,8 +73,7 @@ render(header, makeRating(getWatchedFilmsNumber()));
 render(main, getFilterContainerTemplate());
 const mainNavContainer = document.querySelector(`.main-navigation`);
 
-// Генерируем строку из разметки эл-в фильтра
-// Генерируем строку из разметки элементов
+// Генерируем строку из разметки элементов фильтра
 const createFilterString = (dataArr) => {
   let filterString = ``;
   let isActive = false;
@@ -86,12 +85,10 @@ const createFilterString = (dataArr) => {
   });
   return filterString;
 };
-// makeFilter()
 render(mainNavContainer, createFilterString(filtersData));
 render(mainNavContainer, getStatsElemTemplate());
 
-// Добавляем сортинг
-// Генерируем строку из разметки элементов
+// Генерируем строку из разметки элементов SortFilter
 const createSortString = (dataArr) => {
   let sortString = ``;
   let isActive = false;

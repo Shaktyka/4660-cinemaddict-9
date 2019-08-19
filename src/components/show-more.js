@@ -1,4 +1,4 @@
 // Возвращает разметку кнопки "Show More"
-export const createShowMoreBtnTemplate = () => {
+export const makeShowMoreBtn = () => {
   return `<button class="films-list__show-more">Show more</button>`.trim();
 };

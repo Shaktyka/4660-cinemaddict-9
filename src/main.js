@@ -14,7 +14,7 @@ import {makePopup} from './components/popup.js';
 import {makeShowMoreBtn} from './components/show-more.js';
 import {makeCardData} from './make-card.js';
 import {getRandomNumber} from './utils.js';
-import {sortArray, getWatchedFilmsNumber} from './data.js';
+import {filtersData, sortArray, getWatchedFilmsNumber} from './data.js';
 
 // Количество карточек для блоков
 const CardsAmount = {
@@ -74,8 +74,20 @@ render(main, getFilterContainerTemplate());
 const mainNavContainer = document.querySelector(`.main-navigation`);
 
 // Генерируем строку из разметки эл-в фильтра
-
-render(mainNavContainer, makeFilter());
+// Генерируем строку из разметки элементов
+const createFilterString = (dataArr) => {
+  let filterString = ``;
+  let isActive = false;
+  let amount = 0;
+  dataArr.forEach((dataEl) => {
+    isActive = (dataEl.name === `All movies`) ? true : false;
+    amount = (dataEl.name === `All movies`) ? 0 : getRandomNumber(1, 20);
+    filterString += makeFilter(dataEl, amount, isActive);
+  });
+  return filterString;
+};
+// makeFilter()
+render(mainNavContainer, createFilterString(filtersData));
 render(mainNavContainer, getStatsElemTemplate());
 
 // Добавляем сортинг

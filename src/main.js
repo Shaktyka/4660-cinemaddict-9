@@ -1,5 +1,12 @@
 import {makeSearch} from './components/search.js';
 import {makeRating} from './components/rating.js';
+import {getFilterContainerTemplate} from './components/filter-container.js';
+import {getStatsElemTemplate} from './components/stats-elem-template.js';
+import {getSortingContainerTemplate} from './components/sort-container.js';
+import {getFilmsContainerTemplate} from './components/films-container.js';
+import {getUpcomingFilmsContainerTemplate} from './components/upcoming-films-container.js';
+import {getTopRatedFilmsContainerTemplate} from './components/toprated-films-container.js';
+import {getMostCommentedFilmsContainerTemplate} from './components/most-commented-films-container.js';
 import {makeFilter} from './components/filter.js';
 import {makeSort} from './components/sort.js';
 import {makeCard} from './components/card.js';
@@ -28,54 +35,6 @@ let filmCards = [];
 
 const header = document.querySelector(`.header`);
 const main = document.querySelector(`.main`);
-
-// Возвращает разметку блока для фильтра
-export const getFilterContainerTemplate = () => {
-  return `<nav class="main-navigation"></nav>`.trim();
-};
-
-// Возвращает разметку пункта фильтра Stats
-export const getStatsElemTemplate = () => {
-  return `<a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>`.trim();
-};
-
-// Возвращает разметку блока для сортировки
-export const getSortingContainerTemplate = () => {
-  return `<ul class="sort"></ul>`.trim();
-};
-
-// Возвращает разметку общего блока для карточек фильмов
-export const getFilmsContainerTemplate = () => {
-  return `<section class="films"></section>`.trim();
-};
-
-// Возвращает разметку блока для группы Upcoming
-export const getUpcomingFilmsContainerTemplate = () => {
-  return `<section class="films-list">
-      <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
-      <div class="films-list__container">
-
-      </div>
-    </section>`.trim();
-};
-
-// Возвращает разметку блока для группы Top Rated
-export const getTopRatedFilmsContainerTemplate = () => {
-  return `<section class="films-list--extra" id="top-rated">
-      <h2 class="films-list__title">Top rated</h2>
-      <div class="films-list__container">
-      </div>
-    </section>`.trim();
-};
-
-// Возвращает разметку блока для группы Most Commented
-export const getMostCommentedFilmsContainerTemplate = () => {
-  return `<section class="films-list--extra" id="most-commented">
-      <h2 class="films-list__title">Most commented</h2>
-      <div class="films-list__container">
-      </div>
-    </section>`.trim();
-};
 
 // Генерирует массив с карточками фильмов
 const getCardsDataArray = (amount) => {

@@ -81,19 +81,8 @@ const renderFilter = (container, filterArray) => {
 
 // Стартовый рендеринг фильтра
 renderFilter(mainNavContainer, filtersData);
-// Элемент статистики
+// + Элемент статистики
 render(mainNavContainer, getStatsElemTemplate());
-
-// Генерируем строку из разметки элементов SortFilter
-// const createSortString = (dataArr) => {
-//   let sortString = ``;
-//   let isActive = false;
-//   dataArr.forEach((dataEl) => {
-//     isActive = (dataEl.name === `default`) ? true : false;
-//     sortString += makeSort(dataEl, isActive);
-//   });
-//   return sortString;
-// };
 
 // SORTING FILTER
 render(main, getSortingContainerTemplate());
@@ -128,37 +117,18 @@ const upcomingFilmsWrap = filmsContainer.querySelector(`.films-list`);
 // Контейнер для Upcoming фильмов
 const upcomingFilmsContainer = upcomingFilmsWrap.querySelector(`.films-list__container`);
 
-// Рендеринг строки из карточек
-// const renderCardsString = (dataArr, amount) => {
-//   let cardsString = ``;
-//   if (dataArr.length === 0) {
-//     cardsString = `There are no movies in our database`;
-//   } else {
-//     for (let i = 0; i < amount; i++) {
-//       cardsString += makeCard(dataArr[i]);
-//     }
-//   }
-//   return cardsString;
-// };
-
-// Метод отрисовки карточек (временно)
+// Рендеринг карточек
 const renderCards = (container, dataArray, amount) => {
-  let fragment = new DocumentFragment();
-  if (amount) {
-    for (let i = 0; i < amount; i++) {
-      const el = createElement(new Card(dataArray[i]));
-      fragment.appendChild(el);
-    }
-    container.appendChild(fragment);
-  } else {
-    container.appendChild(``);
+  const fragment = document.createDocumentFragment();
+  for (let i = 0; i < amount; i++) {
+    const element = new Card(dataArray[i]).getElement();
+    fragment.appendChild(element);
   }
+  container.appendChild(fragment);
 };
 
 // Добавляем фильмы в контейнер Upcoming
 renderCards(upcomingFilmsContainer, filmCards, CardsAmount.START);
-
-// render(upcomingFilmsContainer, renderCardsString(filmCards, CardsAmount.START));
 
 // Обработчик клика по кнопке "Show more"
 const showMoreBtnClickHandler = (evt) => {
@@ -185,11 +155,11 @@ insertShowMoreBtn();
 
 // Добавляем фильмы в контейнер Top Rated
 const topRatedContainer = filmsContainer.querySelector(`#top-rated .films-list__container`);
-render(topRatedContainer, new Card(makeCardData()), CardsAmount.TOP_RATED);
+renderCards(topRatedContainer, filmCards, CardsAmount.TOP_RATED);
 
 // Добавляем фильмы в контейнер Most Commented
 const mostCommentedContainer = filmsContainer.querySelector(`#most-commented .films-list__container`);
-render(mostCommentedContainer, new Card(makeCardData()), CardsAmount.MOST_COMMENTED);
+renderCards(mostCommentedContainer, filmCards, CardsAmount.MOST_COMMENTED);
 
 // Попап (временный код)
 const avatar = document.querySelector(`.profile__avatar`);

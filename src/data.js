@@ -21,7 +21,7 @@ export const filtersData = [
 ];
 
 // Данные для сортировки
-export const sortArray = [
+export const sortData = [
   {
     name: `default`,
     href: `?sort=default`

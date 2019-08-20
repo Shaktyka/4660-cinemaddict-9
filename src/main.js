@@ -8,13 +8,13 @@ import {getUpcomingFilmsContainerTemplate} from './components/upcoming-films-con
 import {getTopRatedFilmsContainerTemplate} from './components/toprated-films-container.js';
 import {getMostCommentedFilmsContainerTemplate} from './components/most-commented-films-container.js';
 import {Filter} from './components/filter.js';
-import {makeSort} from './components/sort.js';
+import {SortElement} from './components/sort.js';
 import {Card} from './components/card.js';
 import {makePopup} from './components/popup.js';
 import {makeShowMoreBtn} from './components/show-more.js';
 import {makeCardData} from './make-card.js';
 import {getRandomNumber, createElement} from './utils.js';
-import {filtersData, sortArray, getWatchedFilmsNumber} from './data.js';
+import {filtersData, sortData, getWatchedFilmsNumber} from './data.js';
 
 // Количество карточек для блоков
 const CardsAmount = {
@@ -81,22 +81,39 @@ const renderFilter = (container, filterArray) => {
 
 // Стартовый рендеринг фильтра
 renderFilter(mainNavContainer, filtersData);
-
-// render(mainNavContainer, createFilterString(filtersData));
+// Элемент статистики
 render(mainNavContainer, getStatsElemTemplate());
 
 // Генерируем строку из разметки элементов SortFilter
-const createSortString = (dataArr) => {
-  let sortString = ``;
-  let isActive = false;
-  dataArr.forEach((dataEl) => {
-    isActive = (dataEl.name === `default`) ? true : false;
-    sortString += makeSort(dataEl, isActive);
-  });
-  return sortString;
-};
+// const createSortString = (dataArr) => {
+//   let sortString = ``;
+//   let isActive = false;
+//   dataArr.forEach((dataEl) => {
+//     isActive = (dataEl.name === `default`) ? true : false;
+//     sortString += makeSort(dataEl, isActive);
+//   });
+//   return sortString;
+// };
+
+// SORTING FILTER
 render(main, getSortingContainerTemplate());
-render(document.querySelector(`.sort`), createSortString(sortArray));
+const sortingContainer = document.querySelector(`.sort`);
+
+// Рендеринг фильтра сортировки
+const renderSortFilter = (container, dataArray) => {
+  const fragment = document.createDocumentFragment();
+
+  dataArray.forEach((obj) => {
+    const isActiveFilter = obj.name === `default`;
+
+    const element = new SortElement(obj, isActiveFilter).getElement();
+    fragment.appendChild(element);
+  });
+
+  container.appendChild(fragment);
+};
+
+renderSortFilter(sortingContainer, sortData);
 
 // Контейнеры для контента
 render(main, getFilmsContainerTemplate());

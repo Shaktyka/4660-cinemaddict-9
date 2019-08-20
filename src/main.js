@@ -1,5 +1,5 @@
-import {makeSearch} from './components/search.js';
-import {makeRating} from './components/rating.js';
+import {Search} from './components/search.js';
+import {Rating} from './components/rating.js';
 import {getFilterContainerTemplate} from './components/filter-container.js';
 import {getStatsElemTemplate} from './components/stats-elem-template.js';
 import {getSortingContainerTemplate} from './components/sort-container.js';
@@ -10,8 +10,8 @@ import {getMostCommentedFilmsContainerTemplate} from './components/most-commente
 import {Filter} from './components/filter.js';
 import {SortElement} from './components/sort.js';
 import {Card} from './components/card.js';
-import {Popup} from './components/popup.js';
-import {makeShowMoreBtn} from './components/show-more.js';
+// import {Popup} from './components/popup.js';
+import {ShowMoreButton} from './components/show-more.js';
 import {makeCardData} from './make-card.js';
 import {getRandomNumber, createElement} from './utils.js';
 import {filtersData, sortData, getWatchedFilmsNumber} from './data.js';
@@ -57,8 +57,8 @@ const render = (container, element) => {
 };
 
 // Добавляем Search и Звание/Рейтинг
-render(header, makeSearch());
-render(header, makeRating(getWatchedFilmsNumber()));
+header.appendChild(new Search().getElement());
+header.appendChild(new Rating(getWatchedFilmsNumber()).getElement());
 
 // Добавляем фильтр
 render(main, getFilterContainerTemplate());
@@ -139,7 +139,7 @@ const showMoreBtnClickHandler = (evt) => {
 // Функция рендеринга кнопки "Show more"
 const insertShowMoreBtn = () => {
   if (filmCards.length > 5) {
-    render(upcomingFilmsWrap, makeShowMoreBtn());
+    upcomingFilmsWrap.appendChild(new ShowMoreButton().getElement());
     showMoreBtn = main.querySelector(`.films-list__show-more`);
     showMoreBtn.addEventListener(`click`, showMoreBtnClickHandler);
   } else {

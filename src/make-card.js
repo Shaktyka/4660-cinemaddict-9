@@ -218,24 +218,23 @@ const getCommentsArray = (num) => {
 // Функция для генерации объекта с рандомной структурой данных
 export const makeCardData = () => {
   return {
-    releaseTitle: filmTitles[getRandomNumber(0, filmTitles.length - 1)],
-    originalTitle: filmTitles[getRandomNumber(0, filmTitles.length - 1)],
-    date: getRandomDate(),
-    director: filmDirectors[getRandomNumber(0, filmDirectors.length - 1)],
-    writers: getElementsFromArray(filmWriters, getRandomNumber(1, 3)),
     actors: getElementsFromArray(actors, getRandomNumber(1, 5)),
-    description: getElementsFromArray(phrases, getRandomNumber(1, 3)),
-    duration: getRandomNumber(60, 200),
-    seasons: getRandomNumber(0, 10),
-    genres: getElementsFromArray(filmGenres, getRandomNumber(1, 3)),
     ageRating: ageRates[getRandomNumber(0, ageRates.length - 1)],
     avrRating: getRating(0, 10),
-    userRating: getRandomNumber(1, 9),
-    country: filmCountries[getRandomNumber(0, filmCountries.length - 1)],
-    poster: posters[getRandomNumber(0, posters.length - 1)],
     comments: getCommentsArray(getRandomNumber(0, 5)),
+    country: filmCountries[getRandomNumber(0, filmCountries.length - 1)],
+    date: getRandomDate(),
+    description: getElementsFromArray(phrases, getRandomNumber(1, 3)),
+    director: filmDirectors[getRandomNumber(0, filmDirectors.length - 1)],
+    duration: getRandomNumber(60, 200),
+    genres: getElementsFromArray(filmGenres, getRandomNumber(1, 3)),
     inWatchlist: getBoolean(),
+    isFavorite: getBoolean(),
     isWatched: getBoolean(),
-    isFavorite: getBoolean()
+    originalTitle: filmTitles[getRandomNumber(0, filmTitles.length - 1)],
+    poster: posters[getRandomNumber(0, posters.length - 1)],
+    releaseTitle: filmTitles[getRandomNumber(0, filmTitles.length - 1)],
+    userRating: getRandomNumber(1, 9),
+    writers: getElementsFromArray(filmWriters, getRandomNumber(1, 3))
   };
 };

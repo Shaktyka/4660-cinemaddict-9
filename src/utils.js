@@ -19,8 +19,7 @@ export const createElement = (template) => {
 };
 
 // Форматирование даты
-export const formatDate = (timestamp) => {
-  const date = new Date(timestamp);
+export const formatDate = (date) => {
   return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 };
 
@@ -46,6 +45,11 @@ export const getProfileRating = (num) => {
     rating = ``;
   }
   return rating;
+};
+
+// Удаление элемента из DOM
+export const remove = (element) => {
+  element.remove();
 };
 
 export default createElement;

@@ -10,7 +10,7 @@ import {getMostCommentedFilmsContainerTemplate} from './components/most-commente
 import {Filter} from './components/filter.js';
 import {SortElement} from './components/sort.js';
 import {Card} from './components/card.js';
-import {makePopup} from './components/popup.js';
+import {Popup} from './components/popup.js';
 import {makeShowMoreBtn} from './components/show-more.js';
 import {makeCardData} from './make-card.js';
 import {getRandomNumber, createElement} from './utils.js';
@@ -153,6 +153,14 @@ const insertShowMoreBtn = () => {
 
 insertShowMoreBtn();
 
+// Cортировка массива карточек фильмов
+const getSortedArr = (arr) => {
+  const copiedArr = arr.slice();
+  const filteredArr = [];
+
+  return ``;
+};
+
 // Добавляем фильмы в контейнер Top Rated
 const topRatedContainer = filmsContainer.querySelector(`#top-rated .films-list__container`);
 renderCards(topRatedContainer, filmCards, CardsAmount.TOP_RATED);
@@ -160,15 +168,3 @@ renderCards(topRatedContainer, filmCards, CardsAmount.TOP_RATED);
 // Добавляем фильмы в контейнер Most Commented
 const mostCommentedContainer = filmsContainer.querySelector(`#most-commented .films-list__container`);
 renderCards(mostCommentedContainer, filmCards, CardsAmount.MOST_COMMENTED);
-
-// Попап (временный код)
-const avatar = document.querySelector(`.profile__avatar`);
-avatar.addEventListener(`click`, () => {
-  render(main, makePopup(makeCardData()));
-
-  const closePopup = document.querySelector(`.film-details`).querySelector(`.film-details__close-btn`);
-  closePopup.addEventListener(`click`, (evt) => {
-    evt.preventDefault();
-    document.querySelector(`.film-details`).remove();
-  });
-});

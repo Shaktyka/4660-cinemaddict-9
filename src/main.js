@@ -13,7 +13,7 @@ import {Card} from './components/card.js';
 import {Popup} from './components/popup.js';
 import {ShowMoreButton} from './components/show-more.js';
 import {makeCardData} from './make-card.js';
-import {getRandomNumber, createElement, shuffleArray, getElementsFromArray} from './utils.js';
+import {getRandomNumber, createElement, getElementsFromArray} from './utils.js';
 import {filtersData, sortData, getWatchedFilmsNumber} from './data.js';
 
 // Количество карточек для блоков
@@ -29,6 +29,10 @@ const main = document.querySelector(`.main`);
 
 // Массив данных для карточек фильмов
 let filmCards = [];
+
+// Для проверки рейтинга и кол-ва комментариев (?)
+let isZeroFilmRating = false;
+let isZeroCommentsAmount = false;
 
 // Элемент для вывода кол-ва фильмов
 const filmsAmount = document.querySelector(`.footer__statistics p`);
@@ -145,9 +149,10 @@ const upcomingFilmsWrap = filmsContainer.querySelector(`.films-list`);
 const upcomingFilmsContainer = upcomingFilmsWrap.querySelector(`.films-list__container`);
 
 // Рендеринг карточек
-const renderCards = (container, dataArray, amount) => {
+const renderCards = (container, dataArray, amount = 0) => {
+  let count = amount === 0 ? dataArray.length : amount;
   const fragment = document.createDocumentFragment();
-  for (let i = 0; i < amount; i++) {
+  for (let i = 0; i < count; i++) {
     const card = new Card(dataArray[i]).getElement();
     const popup = new Popup(dataArray[i]);
     fragment.appendChild(card);
@@ -219,9 +224,49 @@ const sortArrayByCommentsAmount = (cardsArray) => {
   return sortedArr;
 };
 
-// Добавляем фильмы в контейнер Top Rated
-const topRatedContainer = filmsContainer.querySelector(`#top-rated .films-list__container`);
-renderCards(topRatedContainer, sortArrayByAvrRating(filmCards.slice()), CardsAmount.TOP_RATED);
+// Вычисляем рейтинг для TopRated
+const getCommonFilmsRating = (cardsArray) => {
+  let isEqual = cardsArray[0].avrRating;
+
+  for (let val of cardsArray) {
+    if (val.avrRating !== isEqual) {
+      return false;
+    }
+  }
+  return isEqual === 0 ? isEqual : true;
+};
+
+// Ф-ция рендеринга блока Top Rated
+const renderTopRated = (dataArr) => {
+  const topRatedContainer = filmsContainer.querySelector(`#top-rated .films-list__container`);
+  renderCards(topRatedContainer, dataArr);
+};
+
+// Выбирает фильмы для рендеринга в блок TopRated
+const getFilmsToTopRated = (dataArr, amount) => {
+  let cardsForRender = [];
+  const rating = getCommonFilmsRating(dataArr);
+  if (rating === 0) {
+    // Блок не отрисовываем и карточки не рендерим
+    isZeroFilmRating = true;
+    return;
+  } else if (rating === false) {
+    // Рейтинг разный, всё ок: сортируем, берём amount и отрисовываем
+    const sortedArray = sortArrayByAvrRating(dataArr);
+    for (let i = 0; i < amount; i++) {
+      cardsForRender.push(sortedArray[i]);
+    }
+  } else {
+    // Рейтинг одинак-й === true. Перемешиваем и отрисовываем 2 карточки
+    cardsForRender = getElementsFromArray(dataArr);
+  }
+  renderTopRated(cardsForRender);
+};
+
+getFilmsToTopRated(filmCards.slice(), CardsAmount.TOP_RATED);
+
+// Вычисляем кол-во комм-в для MostCommented
+
 
 // Добавляем фильмы в контейнер Most Commented
 const mostCommentedContainer = filmsContainer.querySelector(`#most-commented .films-list__container`);

@@ -2,7 +2,8 @@ import {createElement} from '../utils.js';
 
 // Класс "Элемент фильтра"
 export class Filter {
-  constructor({name, href}, isWithoutCount, isActiveFilter) {
+  constructor({name, href}, amount = 0, isWithoutCount, isActiveFilter) {
+    this._amount = amount;
     this._element = null;
     this._href = href;
     this._name = name;
@@ -20,7 +21,7 @@ export class Filter {
   getTemplate() {
     return `<a href="${this._href}" class="main-navigation__item ${this._isActiveFilter ? `main-navigation__item--active` : ``}">
       ${this._name}
-      ${this._isWithoutCount ? `` : `<span class="main-navigation__item-count">5</span>`}
+      ${this._isWithoutCount ? `` : `<span class="main-navigation__item-count">${this._amount}</span>`}
     </a>`.trim();
   }
 

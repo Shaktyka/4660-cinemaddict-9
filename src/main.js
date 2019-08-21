@@ -10,7 +10,7 @@ import {getMostCommentedFilmsContainerTemplate} from './components/most-commente
 import {Filter} from './components/filter.js';
 import {SortElement} from './components/sort.js';
 import {Card} from './components/card.js';
-// import {Popup} from './components/popup.js';
+import {Popup} from './components/popup.js';
 import {ShowMoreButton} from './components/show-more.js';
 import {makeCardData} from './make-card.js';
 import {getRandomNumber, createElement} from './utils.js';
@@ -24,17 +24,20 @@ const CardsAmount = {
   MOST_COMMENTED: 2
 };
 
+const header = document.querySelector(`.header`);
+const main = document.querySelector(`.main`);
+
+// Массив данных для карточек фильмов
+let filmCards = [];
+
 // Элемент для вывода кол-ва фильмов
 const filmsAmount = document.querySelector(`.footer__statistics p`);
 
 // Кнопка "Show More"
 let showMoreBtn = null;
 
-// Массив данных для карточек фильмов
-let filmCards = [];
-
-const header = document.querySelector(`.header`);
-const main = document.querySelector(`.main`);
+// Открытый попап
+let isOpenPopup = null;
 
 // Генерирует массив с карточками фильмов
 const getCardsDataArray = (amount) => {
@@ -64,6 +67,28 @@ header.appendChild(new Rating(getWatchedFilmsNumber()).getElement());
 render(main, getFilterContainerTemplate());
 const mainNavContainer = document.querySelector(`.main-navigation`);
 
+// Фильтрация массива данных карточек
+const countFiteredCards = (cardsArray, filterName) => {
+  let filteredArr = [];
+
+  switch (filterName) {
+    case `All movies`:
+      break;
+    case `Watchlist`:
+      filteredArr = cardsArray.filter((obj) => obj.inWatchlist);
+      break;
+    case `History`:
+      filteredArr = cardsArray.filter((obj) => obj.isWatched);
+      break;
+    case `Favorites`:
+      filteredArr = cardsArray.filter((obj) => obj.isFavorite);
+      break;
+    default:
+      break;
+  }
+  return filteredArr.length;
+};
+
 // Рендеринг фильтра
 const renderFilter = (container, filterArray) => {
   const fragment = document.createDocumentFragment();
@@ -72,7 +97,9 @@ const renderFilter = (container, filterArray) => {
     const isWithoutCount = obj.name === `All movies`;
     const isActiveFilter = obj.name === `All movies`;
 
-    const filter = new Filter(obj, isWithoutCount, isActiveFilter).getElement();
+    const amount = countFiteredCards(filmCards, obj.name);
+
+    const filter = new Filter(obj, amount, isWithoutCount, isActiveFilter).getElement();
     fragment.appendChild(filter);
   });
 
@@ -121,8 +148,9 @@ const upcomingFilmsContainer = upcomingFilmsWrap.querySelector(`.films-list__con
 const renderCards = (container, dataArray, amount) => {
   const fragment = document.createDocumentFragment();
   for (let i = 0; i < amount; i++) {
-    const element = new Card(dataArray[i]).getElement();
-    fragment.appendChild(element);
+    const card = new Card(dataArray[i]).getElement();
+    const popup = new Popup(dataArray[i]);
+    fragment.appendChild(card);
   }
   container.appendChild(fragment);
 };

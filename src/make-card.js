@@ -1,4 +1,4 @@
-import {getRandomNumber} from './utils.js';
+import {getRandomNumber, getElementsFromArray} from './utils.js';
 
 // Количества миллисекунд для ограничения выборки timestamp для получения года выпуска
 const Milliseconds = {
@@ -176,19 +176,6 @@ const getRandomDate = () => Date.now() - getRandomNumber(Milliseconds.ONE_HOUR, 
 
 // Возвращает true или false
 const getBoolean = () => Math.random() >= 0.5;
-
-// Перемешивает массив
-const shuffleArray = (array) => {
-  const copiedArray = array.slice();
-  for (let i = copiedArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copiedArray[i], copiedArray[j]] = [copiedArray[j], copiedArray[i]];
-  }
-  return copiedArray;
-};
-
-// Возвращает х элементов из массива
-const getElementsFromArray = (array, num) => shuffleArray(array).slice(0, num);
 
 // Генерация объекта комментария
 const getCommentObject = () => {

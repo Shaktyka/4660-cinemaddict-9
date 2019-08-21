@@ -13,7 +13,7 @@ import {Card} from './components/card.js';
 import {Popup} from './components/popup.js';
 import {ShowMoreButton} from './components/show-more.js';
 import {makeCardData} from './make-card.js';
-import {getRandomNumber, createElement} from './utils.js';
+import {getRandomNumber, createElement, shuffleArray, getElementsFromArray} from './utils.js';
 import {filtersData, sortData, getWatchedFilmsNumber} from './data.js';
 
 // Количество карточек для блоков
@@ -181,18 +181,29 @@ const insertShowMoreBtn = () => {
 
 insertShowMoreBtn();
 
-// Cортировка массива карточек фильмов
-const getSortedArr = (arr) => {
-  const copiedArr = arr.slice();
-  const filteredArr = [];
+// Возвращает отфильтрованный массив
+const sortArrayByAvrRating = (cardsArray) => {
+  const compareNumbers = (a, b) => {
+    if (a.avrRating < b.avrRating) {
+      return 1;
+    }
+    if (a.avrRating > b.avrRating) {
+      return -1;
+    }
+    // a === b
+    return 0;
+  };
 
-  return ``;
+  let sortedArr = [];
+  sortedArr = cardsArray.sort(compareNumbers);
+
+  return sortedArr;
 };
 
 // Добавляем фильмы в контейнер Top Rated
 const topRatedContainer = filmsContainer.querySelector(`#top-rated .films-list__container`);
-renderCards(topRatedContainer, filmCards, CardsAmount.TOP_RATED);
+renderCards(topRatedContainer, sortArrayByAvrRating(filmCards.slice()), CardsAmount.TOP_RATED);
 
 // Добавляем фильмы в контейнер Most Commented
 const mostCommentedContainer = filmsContainer.querySelector(`#most-commented .films-list__container`);
-renderCards(mostCommentedContainer, filmCards, CardsAmount.MOST_COMMENTED);
+renderCards(mostCommentedContainer, sortArrayByAvrRating(filmCards.slice()), CardsAmount.MOST_COMMENTED);

@@ -52,4 +52,17 @@ export const remove = (element) => {
   element.remove();
 };
 
+// Перемешивает массив
+export const shuffleArray = (array) => {
+  const copiedArray = array.slice();
+  for (let i = copiedArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copiedArray[i], copiedArray[j]] = [copiedArray[j], copiedArray[i]];
+  }
+  return copiedArray;
+};
+
+// Возвращает х элементов из массива
+export const getElementsFromArray = (array, num) => shuffleArray(array).slice(0, num);
+
 export default createElement;

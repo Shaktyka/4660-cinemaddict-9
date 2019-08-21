@@ -181,9 +181,9 @@ const insertShowMoreBtn = () => {
 
 insertShowMoreBtn();
 
-// Возвращает отфильтрованный массив
+// Возвращает отфильтрованный массив по среднему рейтингу
 const sortArrayByAvrRating = (cardsArray) => {
-  const compareNumbers = (a, b) => {
+  const compareRating = (a, b) => {
     if (a.avrRating < b.avrRating) {
       return 1;
     }
@@ -195,7 +195,26 @@ const sortArrayByAvrRating = (cardsArray) => {
   };
 
   let sortedArr = [];
-  sortedArr = cardsArray.sort(compareNumbers);
+  sortedArr = cardsArray.sort(compareRating);
+
+  return sortedArr;
+};
+
+// Возвращает отфильтрованный массив по кол-ву комментариев
+const sortArrayByCommentsAmount = (cardsArray) => {
+  const compareCommentsAmount = (a, b) => {
+    if (a.comments.length < b.comments.length) {
+      return 1;
+    }
+    if (a.comments.length > b.comments.length) {
+      return -1;
+    }
+    // a === b
+    return 0;
+  };
+
+  let sortedArr = [];
+  sortedArr = cardsArray.sort(compareCommentsAmount);
 
   return sortedArr;
 };
@@ -206,4 +225,4 @@ renderCards(topRatedContainer, sortArrayByAvrRating(filmCards.slice()), CardsAmo
 
 // Добавляем фильмы в контейнер Most Commented
 const mostCommentedContainer = filmsContainer.querySelector(`#most-commented .films-list__container`);
-renderCards(mostCommentedContainer, sortArrayByAvrRating(filmCards.slice()), CardsAmount.MOST_COMMENTED);
+renderCards(mostCommentedContainer, sortArrayByCommentsAmount(filmCards.slice()), CardsAmount.MOST_COMMENTED);

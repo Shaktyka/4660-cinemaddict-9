@@ -236,9 +236,13 @@ const getCommonFilmsRating = (cardsArray) => {
   return isEqual === 0 ? isEqual : true;
 };
 
+// Контейнеры для карточек
+let topRatedContainer = null;
+let mostCommentedContainer = null;
+
 // Ф-ция рендеринга блока Top Rated
 const renderTopRated = (dataArr) => {
-  const topRatedContainer = filmsContainer.querySelector(`#top-rated .films-list__container`);
+  topRatedContainer = filmsContainer.querySelector(`#top-rated .films-list__container`);
   renderCards(topRatedContainer, dataArr);
 };
 
@@ -263,11 +267,49 @@ const getFilmsToTopRated = (dataArr, amount) => {
   renderTopRated(cardsForRender);
 };
 
+// Рендеринг TopRared фильмов
 getFilmsToTopRated(filmCards.slice(), CardsAmount.TOP_RATED);
 
-// Вычисляем кол-во комм-в для MostCommented
+// ////////////////// MostCommented //////////////////////////
 
+// Ф-ция рендеринга блока MostCommented
+const renderMostCommented = (dataArr) => {
+  mostCommentedContainer = filmsContainer.querySelector(`#most-commented .films-list__container`);
+  renderCards(mostCommentedContainer, dataArr);
+};
 
-// Добавляем фильмы в контейнер Most Commented
-const mostCommentedContainer = filmsContainer.querySelector(`#most-commented .films-list__container`);
-renderCards(mostCommentedContainer, sortArrayByCommentsAmount(filmCards.slice()), CardsAmount.MOST_COMMENTED);
+// Вычисляем рейтинг для TopRated
+const getCommentsAmount = (cardsArray) => {
+  let isEqual = cardsArray[0].comments.length;
+
+  for (let val of cardsArray) {
+    if (val.comments.length !== isEqual) {
+      return false;
+    }
+  }
+  return isEqual === 0 ? isEqual : true;
+};
+
+// Выбирает фильмы для рендеринга в блок MostCommented
+const getFilmsToMostCommented = (dataArr, amount) => {
+  let cardsForRender = [];
+  const commentsAmount = getCommentsAmount(dataArr);
+  if (commentsAmount === 0) {
+    // Блок не отрисовываем и карточки не рендерим
+    isZeroCommentsAmount = true;
+    return;
+  } else if (commentsAmount === false) {
+    // Рейтинг разный, всё ок: сортируем, берём amount и отрисовываем
+    const sortedArray = sortArrayByCommentsAmount(dataArr);
+    for (let i = 0; i < amount; i++) {
+      cardsForRender.push(sortedArray[i]);
+    }
+  } else {
+    // Рейтинг одинак-й === true. Перемешиваем и отрисовываем 2 карточки
+    cardsForRender = getElementsFromArray(dataArr);
+  }
+  renderMostCommented(cardsForRender);
+};
+
+// Рендеринг MostCommented фильмов
+getFilmsToMostCommented(filmCards.slice(), CardsAmount.MOST_COMMENTED);
